@@ -17,7 +17,7 @@ public class User
     [Required]
     [FutureDate]
     [DataType(DataType.Date)]
-    public DateTime DOB { get; set; }
+    public DateTime? DOB { get; set; }
 
     [Required]
     [MinLength(8, ErrorMessage = "Password must be at least 8 characters long!")]
@@ -26,7 +26,7 @@ public class User
 
     [Required]
     [OddNumber]
-    public int OddNumber { get; set; }
+    public int? OddNumber { get; set; }
 }
 
 public class FutureDateAttribute : ValidationAttribute
@@ -35,7 +35,7 @@ public class FutureDateAttribute : ValidationAttribute
     {   
         DateTime todaysDate = DateTime.Today;
         
-        if (((DateTime)value) >= todaysDate)
+        if (value == null || ((DateTime)value) >= todaysDate)
         {
             return new ValidationResult("Date selection must be in the past");
         }
@@ -49,7 +49,7 @@ public class OddNumberAttribute : ValidationAttribute
     protected override ValidationResult IsValid(object value, ValidationContext validationContext)    
     {   
         
-        if (((int)value) % 2 == 0)
+        if (value == null || ((int)value) % 2 == 0)
         {
             return new ValidationResult("Favorite Odd Number must be an odd number!");
         }
